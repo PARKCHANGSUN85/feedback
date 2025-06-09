@@ -1,3 +1,5 @@
+'use server';
+
 export async function POST(req) {
   console.log('✅ API /api/gpt POST called');
   const { feedbackText } = await req.json();
