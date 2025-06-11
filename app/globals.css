@@ -5,9 +5,6 @@
 :root {
   --background: #000000;
   --text: #ffffff;
-  --accent: #3b82f6;
-  --result-bg: #1a1a1a;
-  --result-text: #e5e5e5;
 }
 
 body {
@@ -18,7 +15,7 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 20px;
+  padding: 1rem;
 }
 
 @layer base {
@@ -27,5 +24,23 @@ body {
   }
   code {
     font-family: var(--font-roboto-mono), monospace;
+  }
+}
+
+@layer components {
+  .input-container {
+    @apply w-full max-w-2xl mx-auto;
+  }
+
+  .feedback-input {
+    @apply w-full p-4 rounded-lg bg-dark-lighter border border-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-200;
+  }
+
+  .submit-button {
+    @apply w-full mt-4 py-4 px-6 rounded-lg bg-primary text-white font-semibold hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-dark transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  .result-container {
+    @apply w-full mt-6 p-6 rounded-lg bg-dark-lighter border border-gray-700 text-gray-200;
   }
 }

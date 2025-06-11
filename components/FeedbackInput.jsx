@@ -27,28 +27,28 @@ const FeedbackInput = () => {
   };
 
   return (
-    <div className="w-full max-w-2xl">
-      <h2 className="text-2xl font-bold mb-6 text-left">피드백 분석</h2>
-      <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+    <div className="input-container">
+      <h2 className="text-3xl font-bold mb-8 text-center">피드백 분석</h2>
+      <form onSubmit={handleSubmit} className="space-y-4">
         <textarea
           value={feedbackText}
           onChange={(e) => setFeedbackText(e.target.value)}
           placeholder="팀원에게 피드백할 때 평소 사용하는 문장을 적어보세요."
-          className="w-full p-4 text-base leading-relaxed rounded border border-gray-700 bg-gray-900 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 min-h-[120px] resize-none"
+          className="feedback-input min-h-[120px] resize-none"
         />
         <button
           type="submit"
-          className="w-full py-4 text-base font-semibold bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors disabled:bg-gray-700"
+          className="submit-button"
           disabled={isLoading}
         >
           {isLoading ? '분석 중...' : '분석하기'}
         </button>
       </form>
       {isLoading ? (
-        <p className="text-center mt-4 text-gray-400">로딩 중...</p>
+        <p className="text-center mt-6 text-gray-400">로딩 중...</p>
       ) : (
         resultText && (
-          <div className="mt-4 p-4 rounded bg-gray-900 text-gray-200 whitespace-pre-line">
+          <div className="result-container whitespace-pre-line">
             {resultText}
           </div>
         )
