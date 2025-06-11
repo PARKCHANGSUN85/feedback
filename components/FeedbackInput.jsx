@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { gptFeedbackAction } from '../app/scripts/gptFeedbackAction';
+
 const FeedbackInput = () => {
   const [feedbackText, setFeedbackText] = useState('');
   const [resultText, setResultText] = useState('');
