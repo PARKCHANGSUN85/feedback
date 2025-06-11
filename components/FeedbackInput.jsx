@@ -39,61 +39,30 @@ const FeedbackInput = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <textarea
-        value={feedbackText}
-        onChange={(e) => setFeedbackText(e.target.value)}
-        placeholder="팀원에게 피드백할 때 평소 사용하는 문장을 적어보세요."
-      />
-      <button type="submit">분석하기</button>
-      {isLoading ? <p>로딩 중...</p> : <p>{resultText}</p>}
-    </form>
+    <div className="max-w-xl mx-auto mt-12 p-6 border border-gray-200 rounded-lg shadow bg-white">
+      <h2 className="text-2xl font-bold text-center mb-6">피드백 분석</h2>
+      <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+        <textarea
+          value={feedbackText}
+          onChange={(e) => setFeedbackText(e.target.value)}
+          placeholder="팀원에게 피드백할 때 평소 사용하는 문장을 적어보세요."
+          className="resize-none p-3 text-base leading-relaxed rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400 min-h-[120px]"
+        />
+        <button
+          type="submit"
+          className="py-3 px-6 text-base font-semibold bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors disabled:bg-gray-400"
+          disabled={isLoading}
+        >
+          {isLoading ? '분석 중...' : '분석하기'}
+        </button>
+      </form>
+      {isLoading ? (
+        <p className="text-center mt-6 italic text-gray-500">로딩 중...</p>
+      ) : (
+        resultText && <div className="mt-8 p-4 border border-gray-100 bg-gray-50 rounded text-gray-800 whitespace-pre-line">{resultText}</div>
+      )}
+    </div>
   );
-};
-
-
-const styles = {
-  container: {
-    maxWidth: '600px',
-    margin: '50px auto',
-    padding: '20px',
-    border: '1px solid #ddd',
-    borderRadius: '8px',
-    fontFamily: 'Arial, sans-serif',
-  },
-  title: {
-    textAlign: 'center',
-    marginBottom: '20px',
-  },
-  form: {
-    display: 'flex',
-    flexDirection: 'column',
-  },
-  textarea: {
-    resize: 'none',
-    padding: '10px',
-    fontSize: '16px',
-    lineHeight: '1.5',
-    marginBottom: '20px',
-    borderRadius: '4px',
-    border: '1px solid #ccc',
-  },
-  button: {
-    padding: '12px',
-    fontSize: '16px',
-    backgroundColor: '#0070f3',
-    color: '#fff',
-    border: 'none',
-    borderRadius: '4px',
-    cursor: 'pointer',
-  },
-  result: {
-    marginTop: '30px',
-    padding: '15px',
-    border: '1px solid #eee',
-    backgroundColor: '#fafafa',
-    borderRadius: '4px',
-  },
 };
 
 export default FeedbackInput; // 반드시 필요!
