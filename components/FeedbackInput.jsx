@@ -10,12 +10,10 @@ const FeedbackInput = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('handleSubmit called'); // 디버그용 추가
-
     setIsLoading(true);
     setResultText('');
-try{
-    const data = await gptFeedbackAction(feedbackText);
+    try {
+      const data = await gptFeedbackAction(feedbackText);
       if (data.result) {
         setResultText(data.result);
       } else {
@@ -25,35 +23,38 @@ try{
       console.error('API 호출 오류:', error);
       setResultText('오류가 발생했습니다.');
     }
-
     setIsLoading(false);
   };
 
   return (
-    <div className="max-w-xl mx-auto mt-12 p-6 border border-gray-200 rounded-lg shadow bg-white">
-      <h2 className="text-2xl font-bold text-center mb-6">피드백 분석</h2>
+    <div className="w-full max-w-2xl">
+      <h2 className="text-2xl font-bold mb-6 text-left">피드백 분석</h2>
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <textarea
           value={feedbackText}
           onChange={(e) => setFeedbackText(e.target.value)}
           placeholder="팀원에게 피드백할 때 평소 사용하는 문장을 적어보세요."
-          className="resize-none p-3 text-base leading-relaxed rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400 min-h-[120px]"
+          className="w-full p-4 text-base leading-relaxed rounded border border-gray-700 bg-gray-900 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 min-h-[120px] resize-none"
         />
         <button
           type="submit"
-          className="py-3 px-6 text-base font-semibold bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors disabled:bg-gray-400"
+          className="w-full py-4 text-base font-semibold bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors disabled:bg-gray-700"
           disabled={isLoading}
         >
           {isLoading ? '분석 중...' : '분석하기'}
         </button>
       </form>
       {isLoading ? (
-        <p className="text-center mt-6 italic text-gray-500">로딩 중...</p>
+        <p className="text-center mt-4 text-gray-400">로딩 중...</p>
       ) : (
-        resultText && <div className="mt-8 p-4 border border-gray-100 bg-gray-50 rounded text-gray-800 whitespace-pre-line">{resultText}</div>
+        resultText && (
+          <div className="mt-4 p-4 rounded bg-gray-900 text-gray-200 whitespace-pre-line">
+            {resultText}
+          </div>
+        )
       )}
     </div>
   );
 };
 
-export default FeedbackInput; // 반드시 필요!
+export default FeedbackInput;
