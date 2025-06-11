@@ -5,7 +5,10 @@ import "./globals.css";
 
 const inter = Inter({
   subsets: ["latin"],
-  display: "swap",
+  variable: '--font-inter',
+  display: 'swap',
+  preload: true,
+  fallback: ['system-ui', 'arial'],
 });
 
 export const metadata: Metadata = {
@@ -19,8 +22,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ko" className={inter.className}>
-      <body className="min-h-screen bg-black text-white">
+    <html lang="ko" className={`${inter.variable}`}>
+      <body className="min-h-screen bg-black text-white font-sans">
         <main className="container mx-auto px-4 py-8">
           {children}
         </main>
