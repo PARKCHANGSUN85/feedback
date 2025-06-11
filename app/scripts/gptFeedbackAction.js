@@ -1,27 +1,13 @@
 'use server';
 
-export async function OPTIONS() {
-  return new Response(null, {
-    status: 204,
-    headers: {
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Methods': 'POST, OPTIONS',
-      'Access-Control-Allow-Headers': 'Content-Type',
-    },
-  });
-}
-
-export async function POST(req) {
-  console.log('✅ api/gpt POST called');
-const apiKey = process.env.OPENAI_API_KEY;
-console.log(apiKey);
-  const { feedbackText } = await req.json();
+export async function gptFeedbackAction(feedbackText) {
+  const apiKey = process.env.OPENAI_API_KEY;
   try {
     const response = await fetch('https://api.openai.com/v1/chat/completions', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${process.env.OPENAI_API_KEY}`,
+        'Authorization': `Bearer ${apiKey}`,
       },
       body: JSON.stringify({
         model: 'gpt-3.5-turbo',
@@ -52,33 +38,12 @@ console.log(apiKey);
     });
 
     const data = await response.json();
-    console.log('OpenAI response:', data);
-
     if (!data.choices || !data.choices[0] || !data.choices[0].message) {
       throw new Error('Invalid response from OpenAI API');
     }
-
-    return new Response(
-      JSON.stringify({ result: data.choices[0].message.content }),
-      {
-        status: 200,
-        headers: {
-          'Content-Type': 'application/json',
-          'Access-Control-Allow-Origin': '*',
-        },
-      }
-    );
+    return { result: data.choices[0].message.content };
   } catch (error) {
     console.error('GPT API 호출 오류:', error);
-    return new Response(
-      JSON.stringify({ error: '서버 오류 발생' }),
-      {
-        status: 500,
-        headers: {
-          'Content-Type': 'application/json',
-          'Access-Control-Allow-Origin': '*',
-        },
-      }
-    );
+    return { error: '서버 오류 발생' };
   }
 } 

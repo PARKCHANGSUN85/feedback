@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-
+import { gptFeedbackAction } from '../app/scripts/gptFeedbackAction';
 const FeedbackInput = () => {
   const [feedbackText, setFeedbackText] = useState('');
   const [resultText, setResultText] = useState('');
@@ -13,18 +13,8 @@ const FeedbackInput = () => {
 
     setIsLoading(true);
     setResultText('');
-
-    try {
-      const response = await fetch('/api/gpt', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ feedbackText }),
-      });
-
-      const data = await response.json();
-
+try{
+    const data = await gptFeedbackAction(feedbackText);
       if (data.result) {
         setResultText(data.result);
       } else {
