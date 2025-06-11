@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React, { useState } from 'react';
 
@@ -7,60 +7,50 @@ const FeedbackInput = () => {
   const [resultText, setResultText] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
-const handleSubmit = async (e) => {
-  e.preventDefault();
-  setIsLoading(true);
-  setResultText('');
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    console.log('handleSubmit called'); // 디버그용 추가
 
-  try {
-    const response = await fetch('/api/gpt', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ feedbackText }),
-    });
+    setIsLoading(true);
+    setResultText('');
 
-    const data = await response.json();
+    try {
+      const response = await fetch('/api/gpt', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ feedbackText }),
+      });
 
-    if (data.result) {
-      setResultText(data.result);
-    } else {
-      setResultText('응답을 받지 못했습니다.');
+      const data = await response.json();
+
+      if (data.result) {
+        setResultText(data.result);
+      } else {
+        setResultText('응답을 받지 못했습니다.');
+      }
+    } catch (error) {
+      console.error('API 호출 오류:', error);
+      setResultText('오류가 발생했습니다.');
     }
-  } catch (error) {
-    console.error('API 호출 오류:', error);
-    setResultText('오류가 발생했습니다.');
-  }
 
-  setIsLoading(false);
-};
+    setIsLoading(false);
+  };
 
   return (
-    <div style={styles.container}>
-      <h1 style={styles.title}>피드백 문장 분석하기</h1>
-      <form onSubmit={handleSubmit} style={styles.form}>
-        <textarea
-          style={styles.textarea}
-          placeholder="팀원에게 피드백할 때 평소 사용하는 문장을 적어보세요."
-          value={feedbackText}
-          onChange={(e) => setFeedbackText(e.target.value)}
-          rows={6}
-        />
-        <button type="submit" style={styles.button} disabled={isLoading}>
-          {isLoading ? '분석 중...' : '분석하기'}
-        </button>
-      </form>
-
-      {resultText && (
-        <div style={styles.result}>
-          <h3>분석 결과</h3>
-          <p>{resultText}</p>
-        </div>
-      )}
-    </div>
+    <form onSubmit={handleSubmit}>
+      <textarea
+        value={feedbackText}
+        onChange={(e) => setFeedbackText(e.target.value)}
+        placeholder="팀원에게 피드백할 때 평소 사용하는 문장을 적어보세요."
+      />
+      <button type="submit">분석하기</button>
+      {isLoading ? <p>로딩 중...</p> : <p>{resultText}</p>}
+    </form>
   );
 };
+
 
 const styles = {
   container: {
@@ -106,4 +96,4 @@ const styles = {
   },
 };
 
-export default FeedbackInput;
+export default FeedbackInput; // 반드시 필요!
